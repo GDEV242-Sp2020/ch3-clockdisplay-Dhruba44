@@ -9,7 +9,7 @@
  * and reacts by incrementing the display. This is done in the usual clock
  * fashion: the hour increments when the minutes roll over to zero.
  * 
- * This is meant for 12hoursInternal
+ * This is meant for 12hoursInternal - Again 12hoursInternal
  * @author Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
