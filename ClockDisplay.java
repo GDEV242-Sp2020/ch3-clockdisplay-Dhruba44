@@ -19,17 +19,7 @@ public class ClockDisplay
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
     
-    /**
-     * Constructor for ClockDisplay objects. This constructor 
-     * creates a new clock set at 00:00.
-     */
-    public ClockDisplay()
-    {
-        hours = new NumberDisplay(24);
-        minutes = new NumberDisplay(60);
-        updateDisplay();
-    }
-
+    
     /**
      * Constructor for ClockDisplay objects. This constructor
      * creates a new clock set at the time specified by the 
@@ -79,7 +69,19 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" + 
+        //Get current hours 
+        int currHour = hours.getValue();
+        //Create a local field for ampm
+        String ampm;
+        // Check the condition for AM or PM
+        if (currHour > 12){
+            currHour -= 12;
+            ampm = "pm";
+        }else {
+            ampm = "am";
+        }
+                        
+        displayString = currHour + ampm + ":" + 
                         minutes.getDisplayValue();
     }
 }
