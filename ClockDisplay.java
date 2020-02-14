@@ -10,35 +10,32 @@
  * fashion: the hour increments when the minutes roll over to zero.
  * 
  * This is meant for 12hoursInternal - Again 12hoursInternal
- * @author Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @Dhruba Dey
+ * @version 02/14/2020
  */
+
+import java.io.*;
+
 public class ClockDisplay
 {
     private NumberDisplay hours;
     private NumberDisplay minutes;
+    private String ampm;
     private String displayString;    // simulates the actual display
     
-    /**
-     * Constructor for ClockDisplay objects. This constructor 
-     * creates a new clock set at 00:00.
-     */
-    public ClockDisplay()
-    {
-        hours = new NumberDisplay(24);
-        minutes = new NumberDisplay(60);
-        updateDisplay();
-    }
-
+    
     /**
      * Constructor for ClockDisplay objects. This constructor
      * creates a new clock set at the time specified by the 
      * parameters.
+     * Turn the clock for 12 hours only
+     * Added one additional parameter for AM or PM
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute,String amOrpm)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
+        ampm = amOrpm;
         setTime(hour, minute);
     }
 
@@ -48,9 +45,9 @@ public class ClockDisplay
      */
     public void timeTick()
     {
-        minutes.increment();
-        if(minutes.getValue() == 0) {  // it just rolled over!
-            hours.increment();
+        this.minutes.increment();
+        if(this.minutes.getValue() == 0) {  // it just rolled over!
+            this.hours.increment();
         }
         updateDisplay();
     }
@@ -61,8 +58,8 @@ public class ClockDisplay
      */
     public void setTime(int hour, int minute)
     {
-        hours.setValue(hour);
-        minutes.setValue(minute);
+        this.hours.setValue(hour);
+        this.minutes.setValue(minute);
         updateDisplay();
     }
 
@@ -79,7 +76,20 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" + 
+        //Get the current hour
+        int currHour = hours.getValue();
+        // check the condition for am or pm
+        if (currHour >= 12 && this.ampm.toLowerString = "am") {
+            ampm = "pm";
+            currHour = 0;
+        }
+        
+        if (currHour >= 12 && this.ampm.toLowerString = "pm") {
+            ampm = "am";
+            currHour = 0;
+        }
+        
+        displayString = currHour + ampm + ":" + 
                         minutes.getDisplayValue();
     }
 }
