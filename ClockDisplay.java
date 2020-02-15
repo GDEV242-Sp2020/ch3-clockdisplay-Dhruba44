@@ -10,9 +10,11 @@
  * fashion: the hour increments when the minutes roll over to zero.
  * 
  * This is meant for 24hoursInternal - Again 24hoursInternal
- * @author Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @Dhruba Dey
+ * @version 02/14/2020
  */
+
+ 
 public class ClockDisplay
 {
     private NumberDisplay hours;
@@ -27,7 +29,7 @@ public class ClockDisplay
      */
     public ClockDisplay(int hour, int minute)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(23);
         minutes = new NumberDisplay(60);
         setTime(hour, minute);
     }
@@ -72,16 +74,17 @@ public class ClockDisplay
         //Get current hours 
         int currHour = hours.getValue();
         //Create a local field for ampm
-        String ampm;
+        String ampm = "am";
         // Check the condition for AM or PM
-        if (currHour > 12){
+        if (currHour >= 12){
             currHour -= 12;
             ampm = "pm";
-        }else {
-            ampm = "am";
         }
                         
-        displayString = currHour + ampm + ":" + 
-                        minutes.getDisplayValue();
+        displayString = currHour + ":" + 
+                        minutes.getDisplayValue() + ampm;
+        
     }
 }
+
+
