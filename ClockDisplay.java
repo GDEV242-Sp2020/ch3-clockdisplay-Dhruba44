@@ -108,6 +108,8 @@ public class ClockDisplay
               
         //System.out.println(displayString1); // this is for debuggin
         
+        // Add the leading zero when the hour is single digit
+        
         if(currHour <10){
             displayString = "0" + displayString1;
             
