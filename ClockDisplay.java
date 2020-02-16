@@ -1,9 +1,8 @@
 
 /**
- * The ClockDisplay class implements a digital clock display for a
- * European-style 24 hour clock. The clock shows hours and minutes. The 
- * range of the clock is 00:00 (midnight) to 23:59 (one minute before 
- * midnight).
+ * This 12 hours clock which is designed to show 1 to 12 for am and pm. 
+ * The limit is set at 13 hours so that 12 can be displayed when the clock is ticked from am to pm or vice versa. 
+ * However, the clocked will be set to 1 hour when it is ticked from 12:59 keeping am and pm intact.
  * 
  * The clock display receives "ticks" (via the timeTick method) every minute
  * and reacts by incrementing the display. This is done in the usual clock
@@ -15,12 +14,13 @@
  */
 
 import java.io.*;
+import java.lang.*;
 
 public class ClockDisplay
 {
     private NumberDisplay hours;
     private NumberDisplay minutes;
-    private String ampm;
+    private String ampm;             // Added field to AM/PM value
     private String displayString;    // simulates the actual display
     
     
@@ -31,12 +31,12 @@ public class ClockDisplay
      * Turn the clock for 12 hours only
      * Added one additional parameter for AM or PM
      */
-    public ClockDisplay(int hour, int minute,String amOrpm)
+    public ClockDisplay(int hour, int minute,String amOrPM)
     {
         hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
-        ampm = amOrpm;
-        setTime(hour, minute);
+        this.ampm = amOrPM;
+        setTime(hour, minute,this.ampm);
     }
 
     /**
@@ -56,10 +56,11 @@ public class ClockDisplay
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute)
+    public void setTime(int hour, int minute,String amOrPM)
     {
         this.hours.setValue(hour);
         this.minutes.setValue(minute);
+        this.ampm = amOrPM;
         updateDisplay();
     }
 
@@ -70,26 +71,51 @@ public class ClockDisplay
     {
         return displayString;
     }
-    
+           
     /**
      * Update the internal string that represents the display.
+     * This 12 hours clock which is designed to show 1 to 12 for am and pm. 
+     * The limit is set at 13 hours so that 12 can be displayed when the clock is ticked from am to pm or vice versa. 
+     * However, the clocked will be set to 1 hour when it is ticked from 12:59 keeping am and pm intact.
      */
     private void updateDisplay()
     {
         //Get the current hour
         int currHour = hours.getValue();
-        // check the condition for am or pm
-        if (currHour >= 12 && this.ampm.toLowerString = "am") {
-            ampm = "pm";
-            currHour = 0;
+        int currMinute = minutes.getValue();
+        String displayString1;// intermediate string for displaying time without leading zero
+        String ampm1; // local field to store intermediate value for displaying
+        // check the condition for am or pm               
+        if (this.ampm.toLowerCase().equals ("am") && currHour == 0 && currMinute == 0) {
+            this.ampm = "pm";
+        }  
+        
+        ampm1 = this.ampm;
+        //System.out.println(this.ampm); // this is for debugging
+                        
+         if (this.ampm.toLowerCase().equals ("pm") && currHour == 0 && currMinute == 0) {
+            this.ampm = "am";
+        }         
+        
+        // System.out.println(this.ampm); // this is for debugging
+        
+        if(currHour == 0){
+           currHour = 12;        
+           displayString1 = currHour + ":" + minutes.getDisplayValue()+ " " + ampm1.toLowerCase();
+        }else {
+           displayString1 = currHour + ":" + minutes.getDisplayValue() + " " +this.ampm.toLowerCase();
+        }
+              
+        //System.out.println(displayString1); // this is for debuggin
+        
+        if(currHour <10){
+            displayString = "0" + displayString1;
+            
+        }  else{
+            displayString = displayString1;
         }
         
-        if (currHour >= 12 && this.ampm.toLowerString = "pm") {
-            ampm = "am";
-            currHour = 0;
-        }
-        
-        displayString = currHour + ampm + ":" + 
-                        minutes.getDisplayValue();
+        //System.out.println(displayString);// this is for debugging
     }
 }
+
