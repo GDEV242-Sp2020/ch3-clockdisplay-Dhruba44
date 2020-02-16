@@ -75,15 +75,25 @@ public class ClockDisplay
         int currHour = hours.getValue();
         //Create a local field for ampm
         String ampm = "am";
+        // String to store the display value without the leading zero when the hour is a single digit
+        String displayString1;
         // Check the condition for AM or PM
         if (currHour >= 12){
             currHour -= 12;
             ampm = "pm";
         }
                         
-        displayString = currHour + ":" + 
+        displayString1 = currHour + ":" + 
                         minutes.getDisplayValue() + ampm;
+                        
+        // Add the leading zero when the hour is a single digit
         
+        if (currHour < 10){
+            displayString = "0"+ displayString1;
+        } else {
+            displayString = displayString1;
+        }
+                
     }
 }
 
